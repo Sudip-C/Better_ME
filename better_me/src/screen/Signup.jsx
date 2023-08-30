@@ -10,11 +10,12 @@ const SignupScreen = ({navigation}) => {
   const [weight, setWeight] = useState('');
   const [email, setEmail] = useState('');
   const [contact_number, setContactNumber] = useState('');
+  const [password,setPassword] =useState('')
 
   const handleSignup = async () => {
    
     try {
-      const response = await axios.post('http://127.0.0.1:8000/new_signup/', {
+      const response = await axios.post('http://127.0.0.1:8000/api/user-signup/', {
         name,
         age,
         gender,
@@ -22,6 +23,7 @@ const SignupScreen = ({navigation}) => {
         weight,
         email,
         contact_number,
+        password
       });
 
       console.log('Signup successful!', response.data);
@@ -58,8 +60,9 @@ const SignupScreen = ({navigation}) => {
 
       <Text>Contact Number</Text>
       <TextInput value={contact_number} onChangeText={num=>setContactNumber(num)} keyboardType="phone-pad" />
-
-      <Button title="Sign Up" onPress={handleSignup} />
+      <Text>Password:</Text>
+      <TextInput secureTextEntry value={password} onChangeText={p=>setPassword(p)} />
+      <Button title="Sign Up" onPress={handleSignup} /><br/>
       <Button title='Sign up as Trainer' onPress={()=>navigation.navigate("Trainer")}/>
     </View>
   );

@@ -1,16 +1,31 @@
-import React from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import axios from 'axios';
 
 const Login =({navigation}) => {
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+  
+    const handleLogin = async () => {
+      try {
+        const response = await axios.post('http://localhost:8000/api/user-login/', { email, password });
+        console.log(response.data); 
+        localStorage.setItem("data",JSON.stringify(response.data))
+        navigation.navigate('Profile')
+      } catch (error) {
+        console.error(error.response.data.detail);
+      }
+    };
     return (
         <View style={styles.container}>
-       <Text style={styles.font}>Login</Text>
-       <input style={styles.input} placeholder='enter Email'></input>
-       <input style={styles.input} placeholder='enter Password'></input>
-
-       <TouchableOpacity style={styles.button} onPress={()=>navigation.navigate('Profile')} >Sign in</TouchableOpacity>
-        </View>
+        <Text>Email:</Text>
+        <TextInput style={styles.input} value={email} onChangeText={e=>setEmail(e)} />
+  
+        <Text>Password:</Text>
+        <TextInput style={styles.input} secureTextEntry value={password} onChangeText={p=>setPassword(p)} />
+        <Text onPress={()=>navigation.navigate("Signup")} >Don't have account? Create a Account.</Text>
+        <Button title="Login" onPress={handleLogin} />
+      </View>
     );
 };
 
@@ -37,6 +52,7 @@ const styles=StyleSheet.create({
         fontFamily:"cursive"
     },
     input:{
+      borderWidth:1,
         borderColor:"black",
         padding:10
     }
