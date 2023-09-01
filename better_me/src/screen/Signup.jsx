@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Picker } from 'react-native';
+import { View, Text, TextInput, Button, Picker, StyleSheet } from 'react-native';
 import axios from 'axios';
 
 const SignupScreen = ({navigation}) => {
@@ -30,17 +30,17 @@ const SignupScreen = ({navigation}) => {
       navigation.navigate('Login')
     } catch (error) {
       console.error('Error signing up:', error.response.data);
-      // Handle error cases here
+      
     }
   };
 
   return (
-    <View>
+    <View style={styles.container} >
       <Text>Name</Text>
-      <TextInput value={name} onChangeText={text=>setName(text)} />
+      <TextInput style={styles.input} value={name} onChangeText={text=>setName(text)} />
 
       <Text>Age</Text>
-      <TextInput value={age} onChangeText={age=>setAge(age)} keyboardType="numeric" />
+      <TextInput style={styles.input} value={age} onChangeText={age=>setAge(age)} keyboardType="numeric" />
 
       <Text>Gender</Text>
       <Picker selectedValue={gender} onValueChange={gen=>setGender(gen)}>
@@ -50,22 +50,39 @@ const SignupScreen = ({navigation}) => {
       </Picker>
 
       <Text>Height</Text>
-      <TextInput value={height} onChangeText={hei=>setHeight(hei)} keyboardType="numeric" />
+      <TextInput style={styles.input} value={height} onChangeText={hei=>setHeight(hei)} keyboardType="numeric" />
 
       <Text>Weight</Text>
-      <TextInput value={weight} onChangeText={wei=>setWeight(wei)} keyboardType="numeric" />
+      <TextInput style={styles.input} value={weight} onChangeText={wei=>setWeight(wei)} keyboardType="numeric" />
 
       <Text>Email</Text>
-      <TextInput value={email} onChangeText={email=>setEmail(email)} keyboardType="email-address" />
+      <TextInput style={styles.input} value={email} onChangeText={email=>setEmail(email)} keyboardType="email-address" />
 
       <Text>Contact Number</Text>
-      <TextInput value={contact_number} onChangeText={num=>setContactNumber(num)} keyboardType="phone-pad" />
+      <TextInput style={styles.input} value={contact_number} onChangeText={num=>setContactNumber(num)} keyboardType="phone-pad" />
       <Text>Password:</Text>
-      <TextInput secureTextEntry value={password} onChangeText={p=>setPassword(p)} />
+      <TextInput style={styles.input} secureTextEntry value={password} onChangeText={p=>setPassword(p)} />
       <Button title="Sign Up" onPress={handleSignup} /><br/>
       <Button title='Sign up as Trainer' onPress={()=>navigation.navigate("Trainer")}/>
     </View>
   );
 };
+
+const styles=StyleSheet.create({
+  container:{
+    // position:'absolute',
+    width:'30%',
+    height:"80%",
+    margin:'auto',
+    padding:10,
+    gap:20,
+   borderWidth:1
+},
+input:{
+  borderWidth:1,
+    borderColor:"black",
+    padding:10
+}
+})
 
 export default SignupScreen;

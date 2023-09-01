@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import axios from 'axios';
 
-const Login =({navigation}) => {
+const Trainer_login =({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
   
     const handleLogin = async () => {
       try {
-        const response = await axios.post('http://localhost:8000/api/user-login/', { email, password });
+        const response = await axios.post('http://localhost:8000/api/trainer-login/', { email, password });
         console.log(response.data); 
-        localStorage.setItem("data",JSON.stringify(response.data))
-        navigation.navigate('Profile')
+        localStorage.setItem("trainer",JSON.stringify(response.data))
+        // navigation.navigate('Profile')
       } catch (error) {
         console.error(error.response.data.detail);
       }
@@ -23,14 +23,13 @@ const Login =({navigation}) => {
   
         <Text>Password:</Text>
         <TextInput style={styles.input} secureTextEntry value={password} onChangeText={p=>setPassword(p)} />
-        <Text onPress={()=>navigation.navigate("Signup")} >Don't have account? Create a Account.</Text>
-        <Button title="Login" onPress={handleLogin} /><br/>
-        <Button title='Sign in as Trainer' onPress={()=>navigation.navigate("Trainer_login")} />
+        <Text onPress={()=>navigation.navigate("Trainer")} >Don't have account? Create a Account.</Text>
+        <Button title="Login" onPress={handleLogin} />
       </View>
     );
 };
 
-export default Login;
+export default Trainer_login;
 
 const styles=StyleSheet.create({
     container:{
