@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useToast } from 'react-native-toast-notifications';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   
   const [userdata,setuserData]=useState({});
   const [users,setUsers]=useState([])
@@ -28,10 +28,10 @@ useEffect(()=>{
   then((res)=>setNplan(res.data)).catch((err)=>console.log("can't get data:1",err.message))
   
 },[users])
-console.log(userdata)
-console.log(wPlan)
-console.log(users)
-console.log(nPlan)
+const handleLogout=()=>{
+  localStorage.removeItem("data")
+  navigation.navigate("Home")
+}
   return (<>
     <View style={styles.container}>
       <Text style={styles.label}>Name: {users.name}</Text>
@@ -41,6 +41,7 @@ console.log(nPlan)
       <Text style={styles.label}>Weight: {users.weight}</Text>
       <Text style={styles.label}>Email: {users.email}</Text>
       <Text style={styles.label}>Contact Number: {users.contact_number}</Text>
+      <TouchableOpacity style={styles.logout} onPress={handleLogout}>Logout</TouchableOpacity>
     
     <Text style={styles.heading}>Your Plans:</Text>
     <View style={styles.list}>
@@ -61,6 +62,15 @@ console.log(nPlan)
 };
 
 const styles = StyleSheet.create({
+  logout:{
+    width:"20%",
+    padding:"10px",
+    backgroundColor:"red",
+    color:"white",
+    fontWeight:"700",
+    fontSize:20,
+    textAlign:'center'
+  },
   container: {
     flex: 1,
     padding: 20,
