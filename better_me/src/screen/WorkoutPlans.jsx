@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, Button, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { useToast } from "react-native-toast-notifications";
 
 const ListWorkoutPlans = ({navigation}) => {
   const [workoutPlans, setWorkoutPlans] = useState([]);
-     const trainerId=JSON.parse(localStorage.getItem('trainer'))
+  const [planId,setPalnId]=useState(null)
+  const [message,setMessage]=useState('')
 
+  const trainerId=JSON.parse(localStorage.getItem('trainer'))
+  const user=JSON.parse(localStorage.getItem("data"))
+  const toast = useToast();
+  console.log(planId)
   useEffect(() => {
     // Fetch the list of workout plans from your Django API
     axios.get('http://localhost:8000/api/workout-plans/')
@@ -16,6 +22,28 @@ const ListWorkoutPlans = ({navigation}) => {
         console.error(error);
       });
   }, []);
+  
+const handlePlan=(id)=>{
+setPalnId(id)
+}
+
+const upateplan=()=>{
+  axios
+  .patch(`http://127.0.0.1:8000/api/users/${user.id}/select-workout-plan/`, {
+    workout_plan_id: planId, 
+  })
+  .then((response) => {
+    // Handle success
+    console.log('Workout plan added to user profile:', response.data);
+    toast.show('Workout plan added successfully 😁😁😁');
+    setPalnId(null); 
+  })
+  .catch((error) => {
+    // Handle errors
+    console.error('Error adding workout plan:', error);
+    toast.show('Error adding workout plan. Please try again.');
+  });
+}
 
   return (
     <View style={{padding:"15px"}}>
@@ -34,13 +62,16 @@ const ListWorkoutPlans = ({navigation}) => {
             <Text style={style.margin}>{item.goal}</Text>
             <Text style={style.margin}>{item.duration_weeks} weeks</Text>
             <Text style={style.margin}>{item.description}</Text>
-            <Button
+            {planId?<Button title='confirm' onPress={upateplan}/>
+            :user?<Button title='+ Add' onPress={()=>handlePlan(item.id)}/>:null}
+            
+            {trainerId?<Button
             title="Update Plan"
             
             onPress={() => {
                      navigation.navigate('UpdateWorkoutPlan', { workoutPlanId: item.id });
                      }}
-            />
+            />:null}
           </View>
         )}
       />

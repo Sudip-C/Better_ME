@@ -12,8 +12,8 @@ const Home =({navigation}) => {
             <View style={style.menu}>
             <View style={{width:"50%"}}></View>
             <View  style={style.options}>
-            <Text style={style.plans}onPress={()=>navigation.navigate('Workout_plan')} >Exercise Plans</Text>
-            <Text style={style.plans}>Diet Plans</Text>
+            <Text style={style.plans} onPress={()=>navigation.navigate('Workout_plan')} >Exercise Plans</Text>
+            <Text style={style.plans} onPress={()=>navigation.navigate('ListNutrition')}>Diet Plans</Text>
             <TouchableOpacity style={style.login_button} onPress={()=>navigation.navigate('Login')} >
             <Text style={style.plans}>Login</Text></TouchableOpacity>
             </View>
@@ -30,23 +30,24 @@ const Home =({navigation}) => {
 const style=StyleSheet.create({
     main:{
         backgroundColor:"white",
-        height:"auto"
+        height:"auto",
     },
     container:{
-        flex:1,
+        // flex:1,
         flexDirection:'row',
         gap:10,
         alignItems:"center",
-        justifyContent:"space-between"
+        justifyContent:"space-between",
+        borderBottomWidth:1
     },
     plans:{
-        fontSize:25
+        fontSize:20
     },
     menu:{
         flex:1,
         alignItems:"center",
         flexDirection:"row",
-        borderWidth:1,
+        // borderWidth:1,
         gap:15,
         justifyContent:"space-between",
        
@@ -58,8 +59,8 @@ const style=StyleSheet.create({
         alignItems:"center",
         flexDirection:"row",
         gap:15,
-        borderWidth:1,
-        borderColor:"red",
+        // borderWidth:1,
+        // borderColor:"red",
         justifyContent:"space-between",
          padding:"15px"
 

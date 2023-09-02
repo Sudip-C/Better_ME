@@ -10,10 +10,15 @@ import Trainer_login from './src/screen/TrainerLogin';
 import ListWorkoutPlans from './src/screen/WorkoutPlans';
 import CreateWorkoutPlan from './src/screen/CreateworkoutPlans';
 import UpdateWorkoutPlan from './src/screen/UpdateWorkoutPlan';
+import ListNutritionPlans from './src/screen/ListNutritionPlans';
+import CreateNutritionPlan from './src/screen/CreateNutritionPlan';
+import UpdateNutritionPlan from './src/screen/UpdateNutritionPlan';
+import { ToastProvider } from 'react-native-toast-notifications';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
+    <ToastProvider>
     <NavigationContainer>
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen name='Home' component={Home} />
@@ -25,8 +30,12 @@ export default function App() {
       <Stack.Screen name="Workout_plan" component={ListWorkoutPlans}/>
       <Stack.Screen name='Create_workout_plan' component={CreateWorkoutPlan}/>
       <Stack.Screen name='UpdateWorkoutPlan' component={UpdateWorkoutPlan}/>
+      <Stack.Screen name='ListNutrition' component={ListNutritionPlans}/>
+      <Stack.Screen name='create_nutrition' component={CreateNutritionPlan}/>
+      <Stack.Screen name='update_nutrition' component={UpdateNutritionPlan}/>
     </Stack.Navigator>
   </NavigationContainer>
+  </ToastProvider>
   );
 }
 

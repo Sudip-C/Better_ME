@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Picker, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { useToast } from 'react-native-toast-notifications';
 
 const SignupScreen = ({navigation}) => {
   const [name, setName] = useState('');
@@ -12,6 +13,7 @@ const SignupScreen = ({navigation}) => {
   const [contact_number, setContactNumber] = useState('');
   const [password,setPassword] =useState('')
 
+  const toast=useToast()
   const handleSignup = async () => {
    
     try {
@@ -23,9 +25,11 @@ const SignupScreen = ({navigation}) => {
         weight,
         email,
         contact_number,
-        password
+        password,
+        workou_plan_id:null,
+        nutrition_plan_id:null
       });
-
+      toast.show('Your account Created.')
       console.log('Signup successful!', response.data);
       navigation.navigate('Login')
     } catch (error) {

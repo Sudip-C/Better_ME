@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import axios from 'axios';
+import { useToast } from 'react-native-toast-notifications';
 
 const Login =({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-  
+    const toast=useToast()
     const handleLogin = async () => {
       try {
         const response = await axios.post('http://localhost:8000/api/user-login/', { email, password });
+        toast.show('Welcome!!')
         console.log(response.data); 
         localStorage.setItem("data",JSON.stringify(response.data))
+        localStorage.removeItem("trainer")
         navigation.navigate('Profile')
       } catch (error) {
         console.error(error.response.data.detail);

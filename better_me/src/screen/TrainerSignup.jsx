@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Picker, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { useToast } from 'react-native-toast-notifications';
 const TrainerSignup = ({navigation}) => {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('Male');
@@ -9,7 +10,7 @@ const TrainerSignup = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [contact_number, setContactNumber] = useState('');
   const [password,setPassword]=useState("")
-
+const toast=useToast()
   const handleTrainerSignup = async () => {
    
     try {
@@ -22,7 +23,7 @@ const TrainerSignup = ({navigation}) => {
         contact_number,
         password
       });
-
+      toast.show("Trainer signup successful!")
       console.log('Trainer signup successful!', response.data);
       navigation.navigate('Trainer_login')
       // You might want to navigate to a success screen or perform other actions here
