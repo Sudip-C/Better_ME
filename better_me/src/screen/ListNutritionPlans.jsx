@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Button } from 'react-native';
 import axios from 'axios';
+import { useToast } from 'react-native-toast-notifications';
 
 const ListNutritionPlans = ({navigation}) => {
   const [nutritionPlans, setNutritionPlans] = useState([]);
   const [planId,setPalnId]=useState(null)
-  const [message,setMessage]=useState('')
+  const [title,settitle]=useState('+ Add')
 
+  const toast=useToast()
   const trainerId=JSON.parse(localStorage.getItem('trainer'))
   const user=JSON.parse(localStorage.getItem("data"))
   useEffect(() => {
@@ -20,28 +22,33 @@ const ListNutritionPlans = ({navigation}) => {
       });
   }, []);
 
-  const upateplan=()=>{
-    axios
-    .patch(`http://127.0.0.1:8000/api/users/${user.id}/select-nutrition-plan/`, {
+  const handlePlan=(id)=>{
+    setPalnId(id)
+    }
+
+
+  const updateplan=()=>{
+    axios.patch(`http://127.0.0.1:8000/api/users/${user.id}/select-nutrition-plan/`, {
       nutrition_plan_id: planId, 
     })
     .then((response) => {
       // Handle success
+      toast.show("Plan added to User profile.")
       console.log('Workout plan added to user profile:', response.data);
-      setMessage('Workout plan added successfully.');
       setPalnId(null); // Reset selected plan
+      settitle("Selected")
     })
     .catch((error) => {
       // Handle errors
       console.error('Error adding workout plan:', error);
-      setMessage('Error adding workout plan. Please try again.');
+      toast.show('Error adding workout plan. Please try again.');
     });
   }
 
   return (
     <View style={{padding:"15px"}}>
      {trainerId?<TouchableOpacity style={style.create} onPress={()=>navigation.navigate('create_nutrition')}>
-    <Text style={style.button}>+ Add Nutrion Plan</Text>
+    <Text style={style.button}>+ Add Nutrition Plan</Text>
     </TouchableOpacity>:null}
       <Text style={{fontFamily:"cursive",fontSize:"30px"}}>Nutrition Plans:</Text>
       <FlatList
@@ -53,8 +60,8 @@ const ListNutritionPlans = ({navigation}) => {
             <Text style={style.margin}>{item.goal}</Text>
             <Text style={style.margin}>{item.duration_weeks} weeks</Text>
             <Text style={style.margin}>{item.guidelines}</Text>
-            {planId?<Button title='confirm' onPress={upateplan}/>
-            :user?<Button title='+ Add' onPress={()=>handlePlan(item.id)}/>:null}
+            {planId?<Button title='confirm' onPress={updateplan}/>
+            :user?<Button title={title} onPress={()=>handlePlan(item.id)}/>:null}
 
             {trainerId?<Button
             title="Update Plan"

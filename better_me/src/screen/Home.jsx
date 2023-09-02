@@ -1,6 +1,13 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 const Home =({navigation}) => {
+const trainer=JSON.parse(localStorage.getItem("trainer"))
+const user=JSON.parse(localStorage.getItem('data'))
+
+const logoutTrainer=()=>{
+    localStorage.removeItem('trainer')
+}
+
 
     return (
         <View style={style.main} >
@@ -14,8 +21,10 @@ const Home =({navigation}) => {
             <View  style={style.options}>
             <Text style={style.plans} onPress={()=>navigation.navigate('Workout_plan')} >Exercise Plans</Text>
             <Text style={style.plans} onPress={()=>navigation.navigate('ListNutrition')}>Diet Plans</Text>
-            <TouchableOpacity style={style.login_button} onPress={()=>navigation.navigate('Login')} >
-            <Text style={style.plans}>Login</Text></TouchableOpacity>
+            <TouchableOpacity style={style.login_button}  >
+            {trainer?<Text onPress={logoutTrainer} style={style.plans}>Welcome ,{trainer.name}</Text>
+            :user?<Text onPress={()=>navigation.navigate('Profile')} style={style.plans}>Welcome , {user.name}</Text>
+            :<Text onPress={()=>navigation.navigate('Login')} style={style.plans}>Login</Text>}</TouchableOpacity>
             </View>
             </View>
         </View>

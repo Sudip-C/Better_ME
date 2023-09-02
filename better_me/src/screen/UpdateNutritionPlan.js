@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
+import { useToast } from 'react-native-toast-notifications';
 
 const UpdateNutritionPlan = ({ route, navigation }) => {
   const [planName, setPlanName] = useState('');
@@ -8,7 +9,7 @@ const UpdateNutritionPlan = ({ route, navigation }) => {
   const [durationWeeks, setDurationWeeks] = useState('');
   const [guidelines, setGuidelines] = useState('');
   const [trainer,setTrainer]=useState(0)
-
+  const toast=useToast()
   const { nutritionPlanId } = route.params; // Get the Nutrition Plan ID from the route params
 
   useEffect(() => {
@@ -39,6 +40,7 @@ console.log(planName)
       trainer:trainer
     })
       .then((response) => {
+        toast.show("Plan Updated.👌👌")
         console.log('Nutrition plan updated:', response.data);
         navigation.navigate('ListNutrition'); // Go back to the previous screen
       })
